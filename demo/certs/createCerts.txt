@@ -1,0 +1,4 @@
+openssl genrsa -out privatekey.pem 4096
+openssl req -new -x509 -key privatekey.pem -out publickey.cer -days 1825
+openssl pkcs8 -topk8 -inform PEM -outform DER -in privatekey.pem -out private_key.der -nocrypt
+openssl rsa -in privatekey.pem -pubout -outform DER -out public_key.der
