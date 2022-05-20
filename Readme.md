@@ -30,11 +30,18 @@ In this article VS Code and Tomcat is used.
    9.  Create new
    10. Enter a name in Name field, eg. JAVA App
    11. Enter http://localhost:8080 (8080 is the port your web app will run on when published, change to correct port in your setup) in Add an Origin and Click Add
-   12. Click Create
-   13. You need the auto-generated ID from the list for later use
+   12. Click Create <br>
+   ![image](https://user-images.githubusercontent.com/6170297/169548961-575c5d2e-154e-4b61-acb3-44d4b5ab27c3.png)
+
+   13. You need the auto-generated ID from the list for later use <br>
+   ![image](https://user-images.githubusercontent.com/6170297/169549360-bc64b948-dafc-4272-aa04-5635a2b96468.png)
+
    14. Click on Settings in the menu
-   15. Make sure that "Enable dynamic assignment of professional users" and "Creation of groups" both are toogled on.
-5. Open the git repository in your favorite IDE 
+   15. Make sure that "Enable dynamic assignment of professional users and/or analyzer users depending on the use case" and "Creation of groups" both are toogled on.
+   ![image](https://user-images.githubusercontent.com/6170297/169549600-d4337cc6-966d-48e4-9a3d-94f799903eb0.png) ![image](https://user-images.githubusercontent.com/6170297/169549817-d530945d-92fa-4b53-b929-65e207d7f6e2.png)
+
+
+5. Open the code from the git repository in your favorite IDE 
 6. Navigate to the src/main/example/main.java file
 7. Change the static values in the top of the main function
    1. certsPath should point to the directory where the certificates are stored
