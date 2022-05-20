@@ -50,7 +50,7 @@ In this article VS Code and Tomcat is used.
    4. QlikSaaSInstance is the SaaS instance URL (eg mytenant.eu.qlikcloud.com/)
    5. QlikIntegrationID is the ID found in the Management Console after the Webintegration form was created. You can still go back to the Management Console and click on Web to find the ID.
 8. Now you should be able to build the war file and test it.
-9. Navigate to the main directory of the solution, the direcorty which contains the pom.xml file, and "run mvn install" Now you will find a war file in the target directory.
+9. Navigate to the main directory of the solution, the direcorty which contains the pom.xml file, and "run mvn install" in a command prompt. Now you will find a war file in the target directory.
 10. Install the war file on web server and try to run the solution. If you are using VS Code and the Tomcat extension is used, then this step can be done by right clicking the war file and select Run On Tomcat Server.
 11. Navigate to the webserver in a browser.
 ## Explanation of the code##
