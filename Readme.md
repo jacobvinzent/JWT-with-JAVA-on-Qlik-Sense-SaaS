@@ -24,6 +24,8 @@ In this article VS Code and Tomcat is used.
    5. Copy the certificate from the publickey.cer file into the Certificate field.
    6. You can either specify an Issuer and a Key ID, if you don't enter values, some random values will be automatically assigned. It is IMPORTANT to remember both the Issuer and the Key ID.
    7. Click Create
+   ![image](https://user-images.githubusercontent.com/6170297/169548503-30d14e7f-a1fa-4dc4-a70b-081ccdc0fa8f.png)
+
    8. Click on Web in the menu
    9.  Create new
    10. Enter a name in Name field, eg. JAVA App
