@@ -17,7 +17,7 @@ In this article VS Code and Tomcat is used.
 2. Open the directory <solutionDir>/certs in a command line
 3. Run the four commands specified in the createsCerts.txt
 4. After running all four commands you have four certificate files in the folder. The two "der" files are used in the JAVA code when creating the JWT. The publickey.cer needs used in a JWT IDP in Qlik Sense SaaS.
-   1. Login to Qlik Sense SaaS and navigate to the Manament Console.
+   1. Login to Qlik Sense SaaS and navigate to the Management Console.
    2. Select Indentity Provider in the menu.
    3. Click create new.
    4. Select JWT in the Type dropdown.
