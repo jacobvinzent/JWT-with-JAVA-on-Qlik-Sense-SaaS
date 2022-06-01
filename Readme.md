@@ -1,4 +1,4 @@
-# Use JWT with Qlik Sensee SaaS and JAVA#
+# Use JWT with Qlik Sensee SaaS and JAVA
 
 ## Introduction ##
 This article describes how to use JWT in Qlik Sense SaaS using JAVA code.
@@ -59,4 +59,4 @@ There are 4 more values you most likely will change<br>
 1. claims.put("sub", "SomeSampleSeedValue1"); this will in most case be a static value identical for all users.
 2. claims.put("name", "John Doe"); here the name of the user you are generating the JWT for should be specified.
 3. claims.put("email", "JohnD@john.com"); here the email of the user you are generating the JWT for should be specified.
-4. .withArrayClaim("groups", new String[]{"Administrators", "Sales", "Marketing"}). groups can be applied dynamically based on the access level the user need in Qlik SaaS
+4. .withArrayClaim("groups", new String[]{"Administrators", "Sales", "Marketing"}). groups can be applied dynamically based on the access level the user needs in Qlik SaaS
