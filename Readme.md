@@ -54,7 +54,7 @@ In this article VS Code and Tomcat is used.
 10. Install the war file on web server and try to run the solution. If you are using VS Code and the Tomcat extension is used, then this step can be done by right clicking the war file and select Run On Tomcat Server.
 11. Navigate to the webserver in a browser.
 ## Explanation of the code##
-The getJWT function is the one creating the signed jwt, most of the values are take from static variables defined in the beginning of the main function. <br>
+The getJWT function is the one creating the signed jwt, most of the values are taken from static variables defined in the beginning of the main function. <br>
 There are 4 more values you most like will change<br>
 1. claims.put("sub", "SomeSampleSeedValue1"); this will in most case be a static value identical for all users.
 2. claims.put("name", "John Doe"); here the name of the user you are generating the JWT for should be specified.
