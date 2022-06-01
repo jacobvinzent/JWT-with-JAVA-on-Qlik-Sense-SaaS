@@ -55,7 +55,7 @@ In this article VS Code and Tomcat is used.
 11. Navigate to the webserver in a browser.
 ## Explanation of the code##
 The getJWT function is the one creating the signed jwt, most of the values are taken from static variables defined in the beginning of the main function. <br>
-There are 4 more values you most like will change<br>
+There are 4 more values you most likely will change<br>
 1. claims.put("sub", "SomeSampleSeedValue1"); this will in most case be a static value identical for all users.
 2. claims.put("name", "John Doe"); here the name of the user you are generating the JWT for should be specified.
 3. claims.put("email", "JohnD@john.com"); here the email of the user you are generating the JWT for should be specified.
