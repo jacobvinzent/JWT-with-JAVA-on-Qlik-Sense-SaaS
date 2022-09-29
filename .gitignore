@@ -3,3 +3,4 @@ demo/certs/privatekey.pem
 demo/certs/publickey.cer
 demo/certs/public_key.der
 demo/target/
+demo/src/main/resources/application.properties.local
