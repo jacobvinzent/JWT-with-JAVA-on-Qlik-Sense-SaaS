@@ -1,7 +1,7 @@
 package com.example;
 
-import java.io.FileInputStream;
-import java.nio.charset.Charset;
+import java.io.InputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.KeyFactory;
@@ -14,12 +14,9 @@ import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.time.Instant;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Random;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.JWT;
@@ -27,31 +24,61 @@ import com.auth0.jwt.JWTCreator.Builder;
 
 
 public class main {
-    static String certsPath = "C:\\jsp\\demo\\certs\\";
-    static String issuer ="test2";
-    static String keyID = "test2";
-    static String expiresIn="30s";
-    static String notBefore= "0s";
-    static String QlikSaaSInstance = "ebv2801full.eu.qlikcloud.com";
-    static String QlikIntegrationID = "iIYLxGEXTpeCYDR1DIoKLgRWoRKK3bp6";
+
+    //The variables will be assigned in loadProperties()
+    static String certsPath = "";
+    static String issuer = "";
+    static String keyID = "";
+    static String qlikSaaSInstance = "";
+    static String qlikIntegrationID = "";
 
 
     public static void main(String[] args) throws Exception {
-  
+        
     }
 
+    //Load application specific properties from the application.properties file under src/main>/resources
+    private static void loadProperties() throws Exception {
+        System.out.println("--> Loading properties from application.properties");
+
+        try (InputStream inputStream = main.class.getClassLoader().getResourceAsStream("application.properties")) {
+            Properties properties = new Properties();
+            if (inputStream == null)
+            {
+               throw new IOException("File application.properties not found");
+            }
+
+            properties.load(inputStream);
+            properties.forEach((key, value) -> System.out.println("Key : " + key + ", Value : " + value));
+
+            certsPath = properties.getProperty("certificatesPath");
+            issuer = properties.getProperty("issuer");
+            keyID = properties.getProperty("keyID");
+            qlikSaaSInstance = properties.getProperty("qlikSaaSInstance");
+            qlikIntegrationID = properties.getProperty("qlikIntegrationID");
+
+        } catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+    }
+
+    //Function is called from index.jsp to retrieve the tenant URL
     public static String getQlikCloudURL() throws Exception {
-        return QlikSaaSInstance;
+        return qlikSaaSInstance;
     }
 
-
+    //Function is called from index.jsp to retrieve the Qlik integration ID
     public static String getQlikIntegrationID() throws Exception {
-        return QlikIntegrationID;
+        return qlikIntegrationID;
     }
 
-
+    //Function is called from index.jsp to retrieve the JSON Web Token
     public static String getJWT() throws Exception {
        
+        //Load the properties
+        loadProperties();
+
+        System.out.println("--> Loading certificates");
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         KeyPair keyPair;
 
@@ -61,62 +88,50 @@ public class main {
         PublicKey public_key = PublicKeyReader.get(certsPath + "public_key.der");
         keyPair = new KeyPair(public_key, private_key);
 
-        
-        Map<String, String> claims = new HashMap<>();
-        claims.put("sub", "SomeSampleSeedValue1");
-        claims.put("subType", "user");
-        claims.put("name", "John Doe");
-        claims.put("email", "JohnD@john.com");
-        claims.put("iss", issuer);
-        claims.put("aud", "qlik.api/login/jwt-session");
-        claims.put("jti", generateRandomString(32));
-        
-        
+        //Prepare the time values
+        Instant instant = Instant.now();
+        long creationTime = instant.getEpochSecond();
+        long expTime = instant.plusSeconds(500).getEpochSecond();
+        long nbfTime = instant.getEpochSecond();
 
+        //Prepare the header
+        System.out.println("--> Preparing header");
         Map<String, Object> header = new HashMap<>();
         header.put("alg", "RS256");
         header.put("typ", "JWT");
         header.put("kid", keyID);
-        header.put("expiresIn", expiresIn);
-        header.put("notBefore", notBefore);
+        System.out.println("Header: " + header.toString());
 
+        //Prepare the payload
+        System.out.println("--> Preparing payload");
+        Map<String, Object> payloadClaims = new HashMap<>();
+        payloadClaims.put("sub", java.util.UUID.randomUUID().toString());
+        payloadClaims.put("subType", "user");
+        payloadClaims.put("name", "John Doe");
+        payloadClaims.put("email", "John.Doe@example.com");
+        payloadClaims.put("email_verified", true );
+        payloadClaims.put("iss", issuer);
+        payloadClaims.put("groups", new String[]{"Administrators", "Sales", "Marketing"});
+        payloadClaims.put("aud", "qlik.api/login/jwt-session");
+        payloadClaims.put("jti", java.util.UUID.randomUUID().toString());
+        payloadClaims.put("iat", creationTime);
+        payloadClaims.put("nbf", nbfTime);
+        payloadClaims.put("exp", expTime);    
+        System.out.println("Payload: " + payloadClaims.toString());
+
+        //Create the JWT token
+        System.out.println("--> Building JWT");
         Builder tokenBuilder = JWT.create()
                 .withHeader(header)
-                .withIssuer(issuer)
-                .withClaim("email_verified", true)
-                .withArrayClaim("groups", new String[]{"Administrators", "Sales", "Marketing"})    
-                .withExpiresAt(Date.from(Instant.now().plusSeconds(300)))
-                .withIssuedAt(Date.from(Instant.now()));
-
-        claims.entrySet().forEach(action -> tokenBuilder.withClaim(action.getKey(), action.getValue()));
+                .withPayload(payloadClaims);
 
         String jwt = tokenBuilder
                 .sign(Algorithm.RSA256(((RSAPublicKey) keyPair.getPublic()), ((RSAPrivateKey) keyPair.getPrivate())));
         
-        System.out.println(jwt);
-                return jwt;
+        System.out.println("JWT: " + jwt);
+        return jwt;
 
     }
-
-
- 
-public static String generateRandomString(int length) {
- 
-    int leftLimit = 97; // letter 'a'
-    int rightLimit = 122; // letter 'z'
-    int targetStringLength = length;
-    Random random = new Random();
-    StringBuilder buffer = new StringBuilder(targetStringLength);
-    for (int i = 0; i < targetStringLength; i++) {
-        int randomLimitedInt = leftLimit + (int) 
-          (random.nextFloat() * (rightLimit - leftLimit + 1));
-        buffer.append((char) randomLimitedInt);
-    }
-    String generatedString = buffer.toString();
-
-    System.out.println(generatedString);
-    return generatedString;
-}
 
     public static class PrivateKeyReader {
         public static PrivateKey get(String filename)
@@ -141,5 +156,4 @@ public static String generateRandomString(int length) {
             return kf.generatePublic(spec);
         }
     }
-
 }

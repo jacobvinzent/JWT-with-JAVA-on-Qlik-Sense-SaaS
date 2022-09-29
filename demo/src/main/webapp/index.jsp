@@ -8,9 +8,7 @@
             var jwt = "<%=main.getJWT()%>";
             var url = "<%=main.getQlikCloudURL()%>";
             var integrationID = "<%=main.getQlikIntegrationID()%>";
-            console.log(jwt);
-
-            
+            console.log("JWT: " + jwt);            
 
             var myHeaders = new Headers();
             myHeaders.append("qlik-web-integration-id", integrationID);
@@ -26,10 +24,8 @@
                 credentials: "include",
                 mode: "cors",
                 rejectunAuthorized: false
-
             };
-
-
+           
             fetch("https://" +  url + "/login/jwt-session?qlik-web-integration-id=" + integrationID, requestOptions)
                 .then(response => response.text())
                 .then(result => {
@@ -37,14 +33,15 @@
                     window.location.replace("https://" +  url );
                 })
                 .catch(error => console.log('error', error));
-
-
         }
+
         getJWT();
+
     </script>
 
     <body>
-        
+        <!-- <h1>JWT</h1>
+        <div id="jwt"></div> -->
     </body>
 
     </html>
