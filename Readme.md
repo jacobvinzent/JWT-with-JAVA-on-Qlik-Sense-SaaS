@@ -1,43 +1,55 @@
 # Use JWT with Qlik Sensee SaaS and JAVA
 
 ## Introduction ##
-This article describes how to use JWT in Qlik Sense SaaS using JAVA code.
+This article describes how to generate a JSON Web Token (JWT) in a Java web application in order to authenticate a user with Qlik Sense SaaS.
 
 ## Prerequsites ##
-1. JAVA is installed
-2. Maven is installed and configured (https://maven.apache.org/) 
-3. A web server eg. Tomcat (https://tomcat.apache.org/download-90.cgi)
-4. OpenSSL is installed
-5. Your preferred IDE
-
-In this article VS Code and Tomcat is used.
-
+* Java is installed either as a Java Runtime Environment (JRE) or Java SE Development Kit (JDK). For this example the [Java 17 JDK](https://www.oracle.com/java/technologies/downloads/#jdk17-windows) has been used.
+* A webserver installed that can run the Java web application. For this example [Apache Tomcat 10](https://tomcat.apache.org/download-10.cgi) has been used.
+* [Apache Maven](https://maven.apache.org/) is installed and configured. This example uses a Maven POM file to build the final application that can be run by the webserver.
+* Install OpenSSL on the developer machine
+* You have an IDE installed to modify the Java web application. For this example [Visual Studio Code](https://code.visualstudio.com/) has been used.
+* If you are are using Visual Studio Code to modify this project, it is recommended to install the following VS Code Extensions:
+   * [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
+   * [Maven for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-maven)
+   
 ## Installation ##
-1. Clone this repositorty or donwload and unzip it
-2. Open the directory <solutionDir>/certs in a command line
-3. Run the four commands specified in the createsCerts.txt
-4. After running all four commands you have four certificate files in the folder. The two "der" files are used in the JAVA code when creating the JWT. The publickey.cer is used in a JWT IDP configuration in Qlik Sense SaaS.
-   1. Login to Qlik Sense SaaS and navigate to the Management Console.
-   2. Select Indentity Provider in the menu.
-   3. Click create new.
-   4. Select JWT in the Type dropdown.
-   5. Copy the certificate from the publickey.cer file into the Certificate field.
-   6. You can either specify an Issuer and a Key ID, if you don't enter values, some random values will be automatically assigned. It is IMPORTANT to remember both the Issuer and the Key ID.
-   7. Click Create <br>
+1. Use one of the options available when clicking on the "Code" button above to clone the repository. Easiest option will be to download it as a ZIP file, unzip it and open the folder that contains the pom.xml in VS Code.
+2. Create a new directory where you will create the certificate files e.g. `C:\temp\certs` and in the Command Prompt change to this directory:
+```
+cd c:\temp\certs
+```
+3. Generate the signing certificates (public and private key) by running the following commands from the Command Prompt. The commands can also be found in the file `demo\certs\createCerts.txt`.
+```
+openssl genrsa -out privatekey.pem 4096
+openssl req -new -x509 -key privatekey.pem -out publickey.cer -days 1825
+openssl pkcs8 -topk8 -inform PEM -outform DER -in privatekey.pem -out private_key.der -nocrypt
+openssl rsa -in privatekey.pem -pubout -outform DER -out public_key.der
+```
+
+4. After running all four commands you will have four certificate files in the certificate folder. The two `*.der` files are used in the Java code when creating the JWT. The `publickey.cer` is used in the configuration of a JWT identity privider (IdP) in Qlik Sense SaaS.
+   1. Login to Qlik Sense SaaS
+   2. In the Management Console, open the section **Identity provider**.
+   3. Click **Create new**.
+   4. Select IdP type **JWT** in the dropdown.
+   5. Optionally, enter a description.
+   6. Copy the content from the `publickey.cer` file into the **Certificate** field.
+   7. Optionally specify an **Issuer** and a **Key ID**. If you leave the fields empty, some random values will be automatically assigned. It is IMPORTANT to remember both the Issuer and the Key ID. You will have to update the corresponding settings in the web.config later with those values later.
+   8. Click Create <br>
    ![image](https://user-images.githubusercontent.com/6170297/169548503-30d14e7f-a1fa-4dc4-a70b-081ccdc0fa8f.png)
 
-   8. Click on Web in the menu
-   9.  Create new
-   10. Enter a name in Name field, eg. JAVA App
-   11. Enter http://localhost:8080 (8080 is the port your web app will run on when published, change to correct port in your setup) in Add an Origin and Click Add
-   12. Click Create <br>
+   9. In the Management Console, open the section **Web**.
+   10. Clik **Create new** to create a new web integration.
+   11. Enter a name in Name field, eg. JAVA App
+   12. Enter http://localhost:8080 (8080 is the port your web app will run on when published, change to correct port in your setup) in Add an Origin and Click Add
+   13. Click Create <br>
    ![image](https://user-images.githubusercontent.com/6170297/169548961-575c5d2e-154e-4b61-acb3-44d4b5ab27c3.png)
 
-   13. You need the auto-generated ID from the list for later use <br>
+   14. You need the auto-generated ID from the list for later use <br>
    ![image](https://user-images.githubusercontent.com/6170297/169549360-bc64b948-dafc-4272-aa04-5635a2b96468.png)
 
-   14. Click on Settings in the menu
-   15. Make sure that "Enable dynamic assignment of professional users and/or analyzer users depending on the use case" and "Creation of groups" both are toogled on.
+   15. Click on Settings in the menu
+   16. Make sure that "Enable dynamic assignment of professional users and/or analyzer users depending on the use case" and "Creation of groups" both are toogled on.
    ![image](https://user-images.githubusercontent.com/6170297/169549600-d4337cc6-966d-48e4-9a3d-94f799903eb0.png) ![image](https://user-images.githubusercontent.com/6170297/169549817-d530945d-92fa-4b53-b929-65e207d7f6e2.png)
 
 
