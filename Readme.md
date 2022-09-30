@@ -65,8 +65,9 @@ openssl rsa -in privatekey.pem -pubout -outform DER -out public_key.der
 There are two main parts in this example:
 1. The Java function getJWT in `.\src\main\java\com\example\main.java` will create a JSON Web Token and hand it over to a JavaScript function in `.\src\main\webapp\index.jsp`
 2. Inside `.\src\main\webapp\index.jsp` an API call will be built with the JWT for the automatic login with Qlik Sense SaaS.
+
 For simplicity of this example, the payload required for the creation of the JWT is hardcoded in `main.java'. In a production environment, the following 4 claims of the payload will most likely be dynamically set:
-    - `sub`: This will in most cases be a static value identical for all users.
-    - `name`: Assign the name of the user you are generating the JWT for.
-    - `email`: Assign the email of the user you are generating the JWT for.
-    - `groups`: Groups can be applied dynamically based on the access level the user needs in Qlik SaaS.
+- `sub`: This will in most cases be a static value identical for all users.
+- `name`: Assign the name of the user you are generating the JWT for.
+- `email`: Assign the email of the user you are generating the JWT for.
+- `groups`: Groups can be applied dynamically based on the access level the user needs in Qlik SaaS.
