@@ -61,7 +61,7 @@ openssl rsa -in privatekey.pem -pubout -outform DER -out public_key.der
 22. Copy the WAR file to the deployment directory of your webserver. If you are using Tomcat, you can copy it to the webapps directory e.g. `c:\Java.Tomcat 10.0\webapps` and Tomcat will automatically deploy the war file (if this option has been enabled). Otherwise go to the management console of Tomcat and manually deploy the war file from there.
 23. Once deployed open a browser window and enter `http://localhost:8080/jwt-example` in the addressbar. If everything has been configured correctly, the Java web application will now create a JWT and automatically log you into Qlik Sense SaaS with it. 
 
-## Explanation of the code##
+## Explanation of the code
 There are two main parts in this example:
 1. The Java function getJWT in `.\src\main\java\com\example\main.java` will create a JSON Web Token and hand it over to a JavaScript function in `.\src\main\webapp\index.jsp`
 2. Inside `.\src\main\webapp\index.jsp` an API call will be built with the JWT for the automatic login with Qlik Sense SaaS.
