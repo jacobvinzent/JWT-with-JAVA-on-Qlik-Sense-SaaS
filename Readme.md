@@ -40,31 +40,32 @@ openssl rsa -in privatekey.pem -pubout -outform DER -out public_key.der
 
    9. In the Management Console, open the section **Web**.
    10. Clik **Create new** to create a new web integration.
-   11. Enter a name in Name field, eg. JAVA App
-   12. Enter http://localhost:8080 (8080 is the port your web app will run on when published, change to correct port in your setup) in Add an Origin and Click Add
-   13. Click Create <br>
+   11. Enter a value in the **Name** field, eg. `Java`.
+   12. Enter `http://localhost:8080` in the **Add an Origin** field and **Click Add**. This will add you local web application to the list of trusted origins. 8080 is the default port of your web application when you run it in in Tomcat. If you are using a different port, please amend as needed.
+   13. Click **Create** to finish this step.
    ![image](https://user-images.githubusercontent.com/6170297/169548961-575c5d2e-154e-4b61-acb3-44d4b5ab27c3.png)
 
-   14. You need the auto-generated ID from the list for later use <br>
+   14. Remeber the auto-generated **ID** of the list of web integrations for later use. You will have to insert it into the application.properties file of your web application.
    ![image](https://user-images.githubusercontent.com/6170297/169549360-bc64b948-dafc-4272-aa04-5635a2b96468.png)
 
-   15. Click on Settings in the menu
-   16. Make sure that "Enable dynamic assignment of professional users and/or analyzer users depending on the use case" and "Creation of groups" both are toogled on.
+   15. In the Management Console, open the section **Settings**.
+   16. Make sure that **_"Enable dynamic assignment of professional users and/or analyzer users depending on the use case"_** and **_"Creation of groups"_** are toogled on.
    ![image](https://user-images.githubusercontent.com/6170297/169549600-d4337cc6-966d-48e4-9a3d-94f799903eb0.png) ![image](https://user-images.githubusercontent.com/6170297/169549817-d530945d-92fa-4b53-b929-65e207d7f6e2.png)
 
 
-5. Open the code from the git repository in your favorite IDE 
-6. Navigate to the src/main/example/main.java file
-7. Change the static values in the top of the main function
+17. Open the code from the git repository in your favorite IDE 
+18. Navigate to the src/main/example/main.java file
+19. Change the static values in the top of the main function
    1. certsPath should point to the directory where the certificates are stored
    2. issuer is the Issuer you saved when created the IDP in Qlik Sense SaaS
    3. keyID is the Key ID you saved when created the IDP in Qlik Sense SaaS
    4. QlikSaaSInstance is the SaaS instance URL (eg mytenant.eu.qlikcloud.com/)
    5. QlikIntegrationID is the ID found in the Management Console after the Webintegration form was created. You can still go back to the Management Console and click on Web to find the ID.
-8. Now you should be able to build the war file and test it.
-9. Navigate to the main directory of the solution, the direcorty which contains the pom.xml file, and "run mvn install" in a command prompt. Now you will find a war file in the target directory.
-10. Install the war file on web server and try to run the solution. If you are using VS Code and the Tomcat extension is used, then this step can be done by right clicking the war file and select Run On Tomcat Server.
-11. Navigate to the webserver in a browser.
+20. Now you should be able to build the war file and test it.
+21. Navigate to the main directory of the solution, the direcorty which contains the pom.xml file, and "run mvn install" in a command prompt. Now you will find a war file in the target directory.
+22. Install the war file on web server and try to run the solution. If you are using VS Code and the Tomcat extension is used, then this step can be done by right clicking the war file and select Run On Tomcat Server.
+23. Navigate to the webserver in a browser.
+
 ## Explanation of the code##
 The getJWT function is the one creating the signed jwt, most of the values are taken from static variables defined in the beginning of the main function. <br>
 There are 4 more values you most likely will change<br>
