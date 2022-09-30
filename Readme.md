@@ -26,7 +26,6 @@ openssl req -new -x509 -key privatekey.pem -out publickey.cer -days 1825
 openssl pkcs8 -topk8 -inform PEM -outform DER -in privatekey.pem -out private_key.der -nocrypt
 openssl rsa -in privatekey.pem -pubout -outform DER -out public_key.der
 ```
-
 4. After running all four commands you will have four certificate files in the certificate folder. The two `*.der` files are used in the Java code when creating the JWT. The `publickey.cer` is used in the configuration of a JWT identity privider (IdP) in Qlik Sense SaaS.
    1. Login to Qlik Sense SaaS
    2. In the Management Console, open the section **Identity provider**.
@@ -37,39 +36,37 @@ openssl rsa -in privatekey.pem -pubout -outform DER -out public_key.der
    7. Optionally specify an **Issuer** and a **Key ID**. If you leave the fields empty, some random values will be automatically assigned. It is IMPORTANT to remember both the Issuer and the Key ID. You will have to update the corresponding settings in the web.config later with those values later.
    8. Click Create <br>
    ![image](https://user-images.githubusercontent.com/6170297/169548503-30d14e7f-a1fa-4dc4-a70b-081ccdc0fa8f.png)
-
    9. In the Management Console, open the section **Web**.
    10. Clik **Create new** to create a new web integration.
    11. Enter a value in the **Name** field, eg. `Java`.
    12. Enter `http://localhost:8080` in the **Add an Origin** field and **Click Add**. This will add you local web application to the list of trusted origins. 8080 is the default port of your web application when you run it in in Tomcat. If you are using a different port, please amend as needed.
-   13. Click **Create** to finish this step.
+   13. Click **Create** to finish this step. <br>
    ![image](https://user-images.githubusercontent.com/6170297/169548961-575c5d2e-154e-4b61-acb3-44d4b5ab27c3.png)
-
-   14. Remeber the auto-generated **ID** of the list of web integrations for later use. You will have to insert it into the application.properties file of your web application.
+   14. Remeber the auto-generated **ID** of the list of web integrations for later use. You will have to insert it into the application.properties file of your web application.<br>
    ![image](https://user-images.githubusercontent.com/6170297/169549360-bc64b948-dafc-4272-aa04-5635a2b96468.png)
-
    15. In the Management Console, open the section **Settings**.
-   16. Make sure that **_"Enable dynamic assignment of professional users and/or analyzer users depending on the use case"_** and **_"Creation of groups"_** are toogled on.
+   16. Make sure that **_"Enable dynamic assignment of professional users and/or analyzer users depending on the use case"_** and **_"Creation of groups"_** are toogled on.<br>
    ![image](https://user-images.githubusercontent.com/6170297/169549600-d4337cc6-966d-48e4-9a3d-94f799903eb0.png) ![image](https://user-images.githubusercontent.com/6170297/169549817-d530945d-92fa-4b53-b929-65e207d7f6e2.png)
-
-
-17. Open the code from the git repository in your favorite IDE 
-18. Navigate to the src/main/example/main.java file
-19. Change the static values in the top of the main function
-   1. certsPath should point to the directory where the certificates are stored
-   2. issuer is the Issuer you saved when created the IDP in Qlik Sense SaaS
-   3. keyID is the Key ID you saved when created the IDP in Qlik Sense SaaS
-   4. QlikSaaSInstance is the SaaS instance URL (eg mytenant.eu.qlikcloud.com/)
-   5. QlikIntegrationID is the ID found in the Management Console after the Webintegration form was created. You can still go back to the Management Console and click on Web to find the ID.
-20. Now you should be able to build the war file and test it.
-21. Navigate to the main directory of the solution, the direcorty which contains the pom.xml file, and "run mvn install" in a command prompt. Now you will find a war file in the target directory.
-22. Install the war file on web server and try to run the solution. If you are using VS Code and the Tomcat extension is used, then this step can be done by right clicking the war file and select Run On Tomcat Server.
-23. Navigate to the webserver in a browser.
+17. If you are using VS Code, run it and open the folder containing the `pom.xml` (should be under .\demo) from the repository that you have downloaded and unzipped in the beginning or follow similar steps in the IDE you are using. 
+18. Navigate to the file `.\src\main\resources\application.properties` to configure the app to use your Qlik Cloud tenant.
+19. Change the values inside the application.properties file to match your environment/configuration:
+    - **certificatesPath**: Enter the path to the directory where the certificates are stored, e.g. `certificatesPath=C:\\temp\\certs\\`
+    - **issuer**: Enter the value of the `Issuer` from your IdP configuration in Qlik Sense SaaS, e.g. `issuer=test`
+    - **keyID**: Enter the value of the `Key ID` from your IdP configuration in Qlik Sense SaaS, e.g. `keyID=test`
+    - **qlikSaaSInstance**: Enter the name of your Qlik Cloud tenant, e.g `qlikSaaSInstance=mytenant.eu.qlikcloud.com`
+    - **qlikIntegrationID**: Enter the `ID` that was generated for your web integration configuration in Qlik Sense SaaS. If you forgot the ID, you can still go back to the `Web` section in the Management Console and copy it from your web integration configuration, e.g. `qlikIntegrationID=1234_1a2b3c4d5ezaLIgrRS5otABCD`.
+20. Save your changes to the `application.properties`.
+21. Navigate to the root directory of the solution where the `pom.xml` resides and select the **MAVEN** section in the VS Code Explorer. First run **compile** and then **package** in the Maven lifecycle. Alternatively you can also initiate the build process with Maven in the Terminal window, e.g. `run mvn package`. The output of the build process will be a `\*.WAR`file under `.\demo\target\`.<br>
+![image](https://user-images.githubusercontent.com/72072893/193283548-5f5cd1f2-b6e6-4227-a706-1aba3550a746.png)
+22. Copy the WAR file to the deployment directory of your webserver. If you are using Tomcat, you can copy it to the webapps directory e.g. `c:\Java.Tomcat 10.0\webapps` and Tomcat will automatically deploy the war file (if this option has been enabled). Otherwise go to the management console of Tomcat and manually deploy the war file from there.
+23. Once deployed open a browser window and enter `http://localhost:8080/jwt-example` in the addressbar. If everything has been configured correctly, the Java web application will now create a JWT and automatically log you into Qlik Sense SaaS with it. 
 
 ## Explanation of the code##
-The getJWT function is the one creating the signed jwt, most of the values are taken from static variables defined in the beginning of the main function. <br>
-There are 4 more values you most likely will change<br>
-1. claims.put("sub", "SomeSampleSeedValue1"); this will in most case be a static value identical for all users.
-2. claims.put("name", "John Doe"); here the name of the user you are generating the JWT for should be specified.
-3. claims.put("email", "JohnD@john.com"); here the email of the user you are generating the JWT for should be specified.
-4. .withArrayClaim("groups", new String[]{"Administrators", "Sales", "Marketing"}). groups can be applied dynamically based on the access level the user needs in Qlik SaaS
+There are two main parts in this example:
+1. The Java function getJWT in `.\src\main\java\com\example\main.java` will create a JSON Web Token and hand it over to a JavaScript function in `.\src\main\webapp\index.jsp`
+2. Inside `.\src\main\webapp\index.jsp` an API call will be built with the JWT for the automatic login with Qlik Sense SaaS.
+For simplicity of this example, the payload required for the creation of the JWT is hardcoded in `main.java'. In a production environment, the following 4 claims of the payload will most likely be dynamically set:
+    - `sub`: This will in most cases be a static value identical for all users.
+    - `name`: Assign the name of the user you are generating the JWT for.
+    - `email`: Assign the email of the user you are generating the JWT for.
+    - `groups`: Groups can be applied dynamically based on the access level the user needs in Qlik SaaS.
