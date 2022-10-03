@@ -33,7 +33,7 @@ openssl rsa -in privatekey.pem -pubout -outform DER -out public_key.der
    4. Select IdP type **JWT** in the dropdown.
    5. Optionally, enter a description.
    6. Copy the content from the `publickey.cer` file into the **Certificate** field.
-   7. Optionally specify an **Issuer** and a **Key ID**. If you leave the fields empty, some random values will be automatically assigned. It is IMPORTANT to remember both the Issuer and the Key ID. You will have to update the corresponding settings in the web.config later with those values later.
+   7. Optionally specify an **Issuer** and a **Key ID**. If you leave the fields empty, some random values will be automatically assigned. It is IMPORTANT to remember both the Issuer and the Key ID. You will have to update the corresponding settings in the application.properties later.
    8. Click Create <br>
    ![image](https://user-images.githubusercontent.com/6170297/169548503-30d14e7f-a1fa-4dc4-a70b-081ccdc0fa8f.png)
    9. In the Management Console, open the section **Web**.
