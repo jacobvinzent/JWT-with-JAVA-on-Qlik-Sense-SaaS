@@ -39,7 +39,7 @@ openssl rsa -in privatekey.pem -pubout -outform DER -out public_key.der
    9. In the Management Console, open the section **Web**.
    10. Clik **Create new** to create a new web integration.
    11. Enter a value in the **Name** field, eg. `Java`.
-   12. Enter `http://localhost:8080` in the **Add an Origin** field and **Click Add**. This will add you local web application to the list of trusted origins. 8080 is the default port of your web application when you run it in in Tomcat. If you are using a different port, please amend as needed.
+   12. Enter `http://localhost:8080` in the **Add an Origin** field and **Click Add**. This will add you local web application to the list of trusted origins. 8080 is the default port of your web application when you run it in Tomcat. If you are using a different port, please amend as needed.
    13. Click **Create** to finish this step. <br>
    ![image](https://user-images.githubusercontent.com/6170297/169548961-575c5d2e-154e-4b61-acb3-44d4b5ab27c3.png)
    14. Remeber the auto-generated **ID** of the list of web integrations for later use. You will have to insert it into the application.properties file of your web application.<br>
