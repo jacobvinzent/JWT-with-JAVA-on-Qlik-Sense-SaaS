@@ -1,5 +1,3 @@
-# Use JWT with Qlik Sensee SaaS and JAVA
-
 ## Introduction ##
 This article describes how to generate a JSON Web Token (JWT) in a Java web application in order to authenticate a user with Qlik Sense SaaS.
 
