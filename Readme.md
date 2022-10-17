@@ -6,7 +6,8 @@ This article describes how to generate a JSON Web Token (JWT) in a Java web appl
 ![image](https://user-images.githubusercontent.com/72072893/196156062-26973dae-02d8-49ad-b892-2aa2a2bca76f.png)
 * A webserver installed that can run the Java web application. For this example [Apache Tomcat 10](https://tomcat.apache.org/download-10.cgi) has been used.
 * [Apache Maven](https://maven.apache.org/) is installed and configured. This example uses a Maven POM file to build the final application that can be run by the webserver.
-* Install OpenSSL on the developer machine, e.g. [OpenSSL Light](https://slproweb.com/products/Win32OpenSSL.html)
+* Install OpenSSL on the developer machine, e.g. [OpenSSL Light](https://slproweb.com/products/Win32OpenSSL.html). In order to be able to run the OpenSSL commands further below, you will have to add the bin directory of your OpenSSL installation to the Path variable in your environment variables
+![image](https://user-images.githubusercontent.com/72072893/196162663-16e761d5-619a-4539-8fb7-eb31922f77b8.png)
 * You have an IDE installed to modify the Java web application. For this example [Visual Studio Code](https://code.visualstudio.com/) has been used.
 * If you are are using Visual Studio Code to modify this project, it is recommended to install the following VS Code Extensions:
    * [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
