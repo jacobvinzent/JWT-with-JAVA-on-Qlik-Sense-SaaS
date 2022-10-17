@@ -11,7 +11,8 @@ This article describes how to generate a JSON Web Token (JWT) in a Java web appl
 * You have an IDE installed to modify the Java web application. For this example [Visual Studio Code](https://code.visualstudio.com/) has been used.
 * If you are are using Visual Studio Code to modify this project, it is recommended to install the following VS Code Extensions:
    * [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
-   * [Maven for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-maven)
+   * [Maven for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-maven). Don't forget to configure the path to your Maven executable inside the extensions settinhgs
+![image](https://user-images.githubusercontent.com/72072893/196164767-b3bb429f-955c-4ce0-856a-fef4009fac46.png)
    
 ## Installation ##
 1. Use one of the options available when clicking on the "Code" button above to clone the repository. Easiest option will be to download it as a ZIP file, unzip it and open the folder that contains the pom.xml in VS Code.
