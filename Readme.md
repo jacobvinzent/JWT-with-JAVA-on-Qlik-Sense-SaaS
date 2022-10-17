@@ -2,7 +2,8 @@
 This article describes how to generate a JSON Web Token (JWT) in a Java web application in order to authenticate a user with Qlik Sense SaaS.
 
 ## Prerequsites ##
-* Java is installed either as a Java Runtime Environment (JRE) or Java SE Development Kit (JDK). For this example the [Java 17 JDK](https://www.oracle.com/java/technologies/downloads/#jdk17-windows) has been used.
+* Java is installed either as a Java Runtime Environment (JRE) or Java SE Development Kit (JDK). For this example the [Java 17 JDK](https://www.oracle.com/java/technologies/downloads/#jdk17-windows) has been used. Make sure to set JAVA_HOME in your environment variables after completing the installation.
+![image](https://user-images.githubusercontent.com/72072893/196156062-26973dae-02d8-49ad-b892-2aa2a2bca76f.png)
 * A webserver installed that can run the Java web application. For this example [Apache Tomcat 10](https://tomcat.apache.org/download-10.cgi) has been used.
 * [Apache Maven](https://maven.apache.org/) is installed and configured. This example uses a Maven POM file to build the final application that can be run by the webserver.
 * Install OpenSSL on the developer machine
