@@ -4,18 +4,18 @@ This article describes how to generate a JSON Web Token (JWT) in a Java web appl
 ## Prerequsites ##
 * Java is installed either as a Java Runtime Environment (JRE) or Java SE Development Kit (JDK). For this example the [Java 17 JDK](https://www.oracle.com/java/technologies/downloads/#jdk17-windows) has been used. Make sure to set JAVA_HOME in your environment variables after completing the installation.
 ![image](https://user-images.githubusercontent.com/72072893/196156062-26973dae-02d8-49ad-b892-2aa2a2bca76f.png)
-* A webserver installed that can run the Java web application. For this example [Apache Tomcat 10](https://tomcat.apache.org/download-10.cgi) has been used.
-* [Apache Maven](https://maven.apache.org/) is installed and configured. This example uses a Maven POM file to build the final application that can be run by the webserver.
+* A webserver has been installed to run the Java web application. For this example [Apache Tomcat 10](https://tomcat.apache.org/download-10.cgi) has been used.
+* [Apache Maven](https://maven.apache.org/) is installed and configured. It will be used to build the WAR file which is then deployed onto the webserver. This example uses a Maven POM file to build the final application that can be run by the webserver.
 * Install OpenSSL on the developer machine, e.g. [OpenSSL Light](https://slproweb.com/products/Win32OpenSSL.html). In order to be able to run the OpenSSL commands further below, you will have to add the bin directory of your OpenSSL installation to the Path variable in your environment variables
 ![image](https://user-images.githubusercontent.com/72072893/196162663-16e761d5-619a-4539-8fb7-eb31922f77b8.png)
 * You have an IDE installed to modify the Java web application. For this example [Visual Studio Code](https://code.visualstudio.com/) has been used.
 * If you are are using Visual Studio Code to modify this project, it is recommended to install the following VS Code Extensions:
-   * [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
-   * [Maven for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-maven). Don't forget to configure the path to your Maven executable inside the extensions settinhgs
+  * [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack)
+  * [Maven for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-maven). Don't forget to configure the path to your Maven executable inside the extensions settinhgs
 ![image](https://user-images.githubusercontent.com/72072893/196164767-b3bb429f-955c-4ce0-856a-fef4009fac46.png)
    
 ## Installation ##
-1. Use one of the options available when clicking on the "Code" button above to clone the repository. Easiest option will be to download it as a ZIP file, unzip it and open the folder that contains the pom.xml in VS Code.
+1. Use one of the options available when clicking on the "Code" button above to clone the repository. Easiest option will be to download the ZIP file, unzip it and open the folder that contains the pom.xml in VS Code.
 2. Create a new directory where you will create the certificate files e.g. `C:\temp\certs` and in the Command Prompt change to this directory:
 ```
 cd c:\temp\certs
@@ -67,7 +67,7 @@ There are two main parts in this example:
 1. The Java function getJWT in `.\src\main\java\com\example\main.java` will create a JSON Web Token and hand it over to a JavaScript function in `.\src\main\webapp\index.jsp`
 2. Inside `.\src\main\webapp\index.jsp` an API call will be built with the JWT for the automatic login with Qlik Sense SaaS.
 
-For simplicity of this example, the payload required for the creation of the JWT is hardcoded in `main.java'. In a production environment, the following 4 claims of the payload will most likely be dynamically set:
+For simplicity of this example, the payload required for the creation of the JWT is hardcoded in `main.java'. In a production environment, the following 4 claims of the payload will most likely be set dynamically:
 - `sub`: This will in most cases be a static value identical for all users.
 - `name`: Assign the name of the user you are generating the JWT for.
 - `email`: Assign the email of the user you are generating the JWT for.
