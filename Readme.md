@@ -15,6 +15,8 @@ This article describes how to generate a JSON Web Token (JWT) in a Java web appl
 ![image](https://user-images.githubusercontent.com/72072893/196164767-b3bb429f-955c-4ce0-856a-fef4009fac46.png)
    
 ## Installation ##
+In order to follow the installation instructions below, please go to the GitHub repository with the source code (only required if you are reading this Readme from  a location othen than the GitHub repository itself): __[JWT with Java GitHub Repository](https://github.com/jacobvinzent/JWT-with-JAVA-on-Qlik-Sense-SaaS)__
+
 1. Use one of the options available when clicking on the "Code" button above to clone the repository. Easiest option will be to download the ZIP file, unzip it and open the folder that contains the pom.xml in VS Code.
 2. Create a new directory where you will create the certificate files e.g. `C:\temp\certs` and in the Command Prompt change to this directory:
 ```
